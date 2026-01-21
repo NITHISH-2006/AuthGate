@@ -12,6 +12,33 @@ const MOCK_USER = {
 
 const SECRET_KEY = "my_super_secret_hostel_key";
 
+const verifyToken = (req , res , next) => {
+
+  const authHeader = req.headers['authorization'];
+
+  if(!authHeader || !authHeader.startsWith('Bearer ')){
+    res.status(403).json({message: "Access Denied"});
+
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try{
+
+    const decoded = jwt.verify(token, SECRET_KEY);
+
+    req.user = decoded;
+
+    next();
+  
+  }
+  catch (err){
+    res.status(404).json({message:"Invalid Token"});
+  }
+
+};
+
+
 app.get('/', (req, res) => {
     res.send('authGate is Online!');
 });

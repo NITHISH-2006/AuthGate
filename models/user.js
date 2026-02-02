@@ -15,11 +15,19 @@ const userSchema =mongoose.Schema({
         type: String,
         required:true
     },
+
+    refreshToken:{
+        type:String,
+        default:null
+    },
+    
     role:{
         type: String,
         enum:['student', 'warden', 'admin'],
         default:'student'
     }
+
+    
 
 });
 
